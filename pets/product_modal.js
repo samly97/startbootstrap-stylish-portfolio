@@ -1,22 +1,3 @@
-// Get the modal
-var modal = document.getElementById("myModal");
-
-// Get the button that opens the modal
-var btn = document.getElementById("myBtn");
-
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
-
-// When the user clicks the button, open the modal 
-btn.onclick = function() {
-  modal.style.display = "block";
-}
-
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-  modal.style.display = "none";
-}
-
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
   if (event.target == modal) {
@@ -24,44 +5,55 @@ window.onclick = function(event) {
   }
 }
 
-// const e = React.createElement;
+// When the user clicks the pet's name, open the modal 
+let nameButtons = (ids) => {
+	let nameBtnPrefix = "name-btn "
+	for (let i = 0; i < ids.length; i++) {
+		nameBtn = document.getElementById(nameBtnPrefix + ids[i])
+		nameBtn.addEventListener("click", () => {
+			modal = document.getElementById("product-modal " + ids[i]);
+			modal.style.display = "block";
+		});
+	}
+}
 
-// class App extends React.Component {
-//   state = { show: false }
+// When the user clicks the pet's image, open the modal 
+let imageButtons = (ids) => {
+	let imageBtnPrefix = "img-btn "
+	for (let i = 0; i < ids.length; i++) {
+		imageBtn = document.getElementById(imageBtnPrefix + ids[i])
+		imageBtn.addEventListener("click", () => {
+			modal = document.getElementById("product-modal " + ids[i]);
+			modal.style.display = "block";
+		});
+	}
+}
 
-//   showModal = () => {
-//     this.setState({ show: true });
-//   }
-  
-//   hideModal = () => {
-//     this.setState({ show: false });
-//   }
-    
-//   render() {
-//     return (
-//       e(
-//         'main', null,
-//         e(Modal, {show: this.state.show, handleClose : this.hideModal},
-//           e('p', null, 'Modal'),
-//           e('p', null, 'Data')),
-//         e('button', {type: 'button', onClick: this.showModal}, 'Open')
-//       )
-//     );
-//   }
-// }
+// When the user clicks on <span> (x), close the modal
+let spanButtons = (ids) => {
+	for (let i = 0; i < ids.length; i++) {
+		modal = document.getElementById("product-modal " + ids[i])
+		span = modal.getElementsByClassName("close")
+		span[0].addEventListener("click", () => {
+			modal.style.display = "none";
+		});
+	}
+}
 
-// const Modal = ({ handleClose, show, children }) => {
-//   const showHideClassName = show ? 'modal display-block' : 'modal display-none';
+// Helper function to get IDs from each modal on the page
+function getIds() {
+	let ids = []
+	let mdls = document.getElementsByClassName('modal')
+	let idPrefix = "product-modal "
+	for (i = 0; i < mdls.length; i++) {
+		let id = mdls[i].id
+		id = id.slice(idPrefix.length, id.length)
+		ids.push(id)
+	}
+	return ids
+}
 
-//   return (
-//     e('div', {className: showHideClassName},
-//       e('section', {className : 'modal-main'},
-//         children,
-//         e('button', {onClick: handleClose}, 'Close')
-//       )
-//     )
-//   );
-// };
-
-// const productCard = document.getElementById('my-modal');
-// ReactDOM.render(e(App), productCard);
+let ids = getIds() // get ids of modals loaded on page
+nameButtons(ids)   // listeners for name buttons
+imageButtons(ids)  // listeners for image buttons
+spanButtons(ids)   // listeners for span
