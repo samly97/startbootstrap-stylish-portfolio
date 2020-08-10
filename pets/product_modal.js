@@ -40,6 +40,17 @@ let spanButtons = (ids) => {
 	}
 }
 
+// When the user clicks on footer "close", close the modal
+let footerButtons = (ids) => {
+	for (let i = 0; i < ids.length; i++) {
+		modal = document.getElementById("product-modal " + ids[i])
+		closeBtn = modal.querySelector(".modal-footer .btn.btn-primary")
+		closeBtn.addEventListener("click", () => {
+			modal.style.display = "none";
+		});
+	}
+}
+
 // Helper function to get IDs from each modal on the page
 function getIds() {
 	let ids = []
@@ -56,4 +67,5 @@ function getIds() {
 let ids = getIds() // get ids of modals loaded on page
 nameButtons(ids)   // listeners for name buttons
 imageButtons(ids)  // listeners for image buttons
-spanButtons(ids)   // listeners for span
+spanButtons(ids)   // listeners for span close button
+footerButtons(ids) // listeners for footer close button
