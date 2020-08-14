@@ -1,3 +1,7 @@
+///////////////////////
+/// MODAL FUNCTIONS ///
+///////////////////////
+
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
   if (event.target == modal) {
@@ -64,8 +68,60 @@ function getIds() {
 	return ids
 }
 
+///////////////////////////
+/// MODAL FUNCTIONS END ///
+///////////////////////////
+
+
+////////////////////////////////
+/// OPEN MODAL BY URL PARAMS ///
+////////////////////////////////
+const queryString = window.location.search
+console.log(queryString)
+const urlParams = new URLSearchParams(queryString)
+
+// Given a map of the (pets, id) on the given page
+// if the pet requested in the URL params matches
+// one of the pets on screen, then have the modal open.
+let openModalByURLParams = (nameMap) => {
+	if(urlParams.has('name')) {
+		let toOpen = urlParams.get('name')
+		toOpen = toOpen.toLowerCase()
+		if (toOpen in nameMap) {
+			let id = nameMap[toOpen]
+			modal = document.getElementById("product-modal " + id)
+			modal.style.display = "block"
+			return
+		} else {
+			return
+		}
+	} else {
+		return
+	}
+}
+
+// Looks through page for names of pet and returns a hashmap
+// of name, id pair
+let getNameMap = (ids) => {
+	let map = new Object()
+	for (let i = 0; i < ids.length; i++) {
+		card = document.getElementById("name-btn " + ids[i])
+		petName = card.textContent
+		petName = petName.toLowerCase()
+		map[petName] = ids[i]
+	}
+	return map
+}
+
+///////////////////////////
+/// ADD MODAL LISTENERS ///
+///////////////////////////
 let ids = getIds() // get ids of modals loaded on page
+let nameMap = getNameMap(ids) // gets name, id of pets loaded on page
+
 nameButtons(ids)   // listeners for name buttons
 imageButtons(ids)  // listeners for image buttons
 spanButtons(ids)   // listeners for span close button
 footerButtons(ids) // listeners for footer close button
+
+openModalByURLParams(nameMap) // open modal by URL params
